@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const questionRoutes = require('./routes/createQuestions');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Backend is running!');
 });
+// Use question routes
+app.use('/api/createQuestions', questionRoutes);
 
 // Start server
 app.listen(PORT, () => {
