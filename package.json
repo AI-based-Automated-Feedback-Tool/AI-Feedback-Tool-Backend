@@ -1,0 +1,27 @@
+{
+  "name": "ai-feedback-tool-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AI-based-Automated-Feedback-Tool/AI-Feedback-Tool-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AI-based-Automated-Feedback-Tool/AI-Feedback-Tool-Backend/issues"
+  },
+  "homepage": "https://github.com/AI-based-Automated-Feedback-Tool/AI-Feedback-Tool-Backend#readme",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  }
+}
