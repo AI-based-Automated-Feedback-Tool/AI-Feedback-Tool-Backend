@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const questionRoutes = require('./routes/createQuestions');
+const configureExamRoutes = require('./routes/configureExamRoutes');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +19,8 @@ app.get('/', (req, res) => {
 });
 // Use question routes
 app.use('/api/createQuestions', questionRoutes);
+// Use configure exam routes
+app.use('/api/configureExam', configureExamRoutes);
 
 // Start server
 app.listen(PORT, () => {
