@@ -1,14 +1,14 @@
 const supabase = require('../supabaseClient'); 
 
-async function addQuestionToExam({exam_id, question_text, options, answers, type, points, teacher_id}) {
+async function addQuestionToExam({exam_id, question_text, options, answers, no_of_correct_answers, points, user_id}) {
     //check the exam belongs to the cuurent user
     const {data: exam, error: examError} = await supabase 
         .from ('exams')
-        .select('exam_id, teacher_id')
+        .select('exam_id, user_id')
         .eq('exam_id', exam_id)
         .single()
     
-    // Check if the exam exists and if the teacher_id matches
+    // Check if the exam exists and if the user_id matches
     if (examError) {
         const err = new Error("Failed to verify the exam");
         err.status = 500;
@@ -19,7 +19,7 @@ async function addQuestionToExam({exam_id, question_text, options, answers, type
         err.status = 404;
         throw err;
     }
-    if(exam.teacher_id !== teacher_id) {
+    if(exam.user_id !== user_id) {
         const err = new Error("You are not allowed to add questions to this exam")
         err.status = 403;
         throw err;
@@ -27,14 +27,14 @@ async function addQuestionToExam({exam_id, question_text, options, answers, type
 
     // Inserting the question into the questions table
     const {data, error} = await supabase
-        .from('questions')
+        .from('mcq_questions')
         .insert([
             {
                 exam_id,
                 question_text,
                 options,
                 answers,
-                type,
+                no_of_correct_answers,
                 points
             }
         ])
