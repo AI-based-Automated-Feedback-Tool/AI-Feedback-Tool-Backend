@@ -11,7 +11,7 @@ const createExamConfiguration = async (examData) => {
       type: examData.type,
       question_count: examData.question_count,
       ai_assessment_guide: examData.ai_assessment_guide,
-      teacher_id: examData.teacher_id 
+      user_id: examData.user_id 
     })
     .select();
 
