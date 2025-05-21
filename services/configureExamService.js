@@ -1,4 +1,4 @@
-const supabase = require('../supabaseClient');
+const { supabase } = require("../supabaseClient");
 
 const createExamConfiguration = async (examData) => {
   const { data, error } = await supabase
