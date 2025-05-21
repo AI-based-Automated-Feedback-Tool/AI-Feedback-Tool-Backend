@@ -4,6 +4,9 @@ const cors = require('cors');
 require('dotenv').config();
 const questionRoutes = require('./routes/createQuestions');
 const configureExamRoutes = require('./routes/configureExamRoutes');
+const examRoutes = require('./routes/examRoutes');
+const questionAPIRoutes = require('./routes/questionRoutes'); 
+
 
 
 const app = express();
@@ -21,6 +24,13 @@ app.get('/', (req, res) => {
 app.use('/api/createQuestions', questionRoutes);
 // Use configure exam routes
 app.use('/api/configureExam', configureExamRoutes);
+
+// Route to fetch exams by course code, e.g., /api/exams/:courseCode
+app.use('/api/exams', examRoutes);
+
+// Route to fetch questions by exam ID, e.g., /api/questions/:examId
+app.use('/api/questions', questionAPIRoutes);
+
 
 // Start server
 app.listen(PORT, () => {
