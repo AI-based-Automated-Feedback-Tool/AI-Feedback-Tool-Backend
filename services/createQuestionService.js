@@ -1,4 +1,4 @@
-const supabase = require('../supabaseClient'); 
+const {supabase} = require('../supabaseClient'); 
 
 async function addQuestionToExam({exam_id, question_text, options, answers, no_of_correct_answers, points, user_id}) {
     //check the exam belongs to the cuurent user
