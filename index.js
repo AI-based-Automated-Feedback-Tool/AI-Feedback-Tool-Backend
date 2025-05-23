@@ -7,7 +7,7 @@ const configureExamRoutes = require('./routes/configureExamRoutes');
 const examRoutes = require('./routes/examRoutes');
 const questionAPIRoutes = require('./routes/questionRoutes'); 
 const getCourseCodeRoutes = require('./routes/getCourseCode'); // Importing the course code routes
-
+const getExamTitleRoutes = require('./routes/getExamTitleRoutes'); // Importing the exam title routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,7 +32,10 @@ app.use('/api/exams', examRoutes);
 app.use('/api/questions', questionAPIRoutes);
 
 //Route to fetch course codes by teacher ID
-app.use('/api/:userId/teacher/reports', getCourseCodeRoutes  );
+app.use('/api/:userId/teacher/reports/', getCourseCodeRoutes  );
+
+// Route to fetch exam titles by course ID
+app.use('/api/:userId/teacher/reports/exams', getExamTitleRoutes)
 
 // Start server
 app.listen(PORT, () => {

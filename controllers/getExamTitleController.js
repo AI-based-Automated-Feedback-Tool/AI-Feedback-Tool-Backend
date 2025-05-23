@@ -2,7 +2,7 @@ const getExamTitleFromExam = require('../services/getExamTitleService'); // Impo
 
 const getExamTitle = async (req, res) => {
     try {
-        const { course_id } = req.params; // Extracting course_id from the request parameters
+        const { course_id } = req.query; 
         if (!course_id) {
             const err = new Error("Course ID is required");
             err.status = 400; 
