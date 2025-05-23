@@ -6,7 +6,7 @@ const questionRoutes = require('./routes/createQuestions');
 const configureExamRoutes = require('./routes/configureExamRoutes');
 const examRoutes = require('./routes/examRoutes');
 const questionAPIRoutes = require('./routes/questionRoutes'); 
-const getCourseCodeRoutes = require('./routes/getCourseCode'); // Importing the course code routes
+const getCourseCodeRoutes = require('./routes/getCourseCodeRoute'); // Importing the course code routes
 const getExamTitleRoutes = require('./routes/getExamTitleRoutes'); // Importing the exam title routes
 
 const app = express();
