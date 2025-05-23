@@ -3,7 +3,7 @@ const {supabase} = require('../supabaseClient')
 async function getCourseCode({user_id}) {
     const {data, error } = await supabase
         .from('courses')
-        .select('course_code, title')
+        .select('course_id, course_code, title')
         .eq('user_id', user_id)
 
     if (error) {
