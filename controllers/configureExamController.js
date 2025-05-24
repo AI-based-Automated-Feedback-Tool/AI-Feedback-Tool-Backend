@@ -3,7 +3,7 @@ const configureExamService = require('../services/configureExamService');
 const saveExamConfiguration = async (req, res) => {
    
   try {
-    if (!req.body.title || !req.body.course_code) {
+    if (!req.body.title || !req.body.course_id) {
       return res.status(400).json({ error: 'Title and Course ID are required' });
     }
 
