@@ -5,7 +5,7 @@ const createExamConfiguration = async (examData) => {
     .from('exams')
     .insert({
       title: examData.title,
-      course_code: examData.course_code,
+      course_id: examData.course_id,
       instructions: examData.instructions,
       duration: examData.duration,
       type: examData.type,
