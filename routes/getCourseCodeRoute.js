@@ -3,5 +3,5 @@ const router = express.Router({ mergeParams: true });
 const {getCourseCodeController} = require('../controllers/getCourseCodeController'); 
 
 
-router.get('/', getCourseCodeController); 
+router.get('/course', getCourseCodeController); 
 module.exports = router; 

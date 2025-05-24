@@ -8,11 +8,7 @@ const getCourseCodeController = async (req, res) => {
             throw err;
         }
         const courses = await getCourseCode({user_id: userId});
-        if (!courses || courses.length === 0) {
-            const err = new Error("No courses found for this user");
-            err.status = 404;
-            throw err;
-        }
+        
         res.status(200).json({
             message: "Course code retrieved successfully", 
             courses
