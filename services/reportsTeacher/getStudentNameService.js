@@ -1,4 +1,4 @@
-const { supabase } = require('../supabaseClient');
+const { supabase } = require('../../supabaseClient');
 
 async function getStudentName({ course_id }) {
     //Get user_ids of students enrolled in the course

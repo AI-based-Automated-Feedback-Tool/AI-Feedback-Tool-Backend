@@ -1,6 +1,6 @@
 const express = require('express'); 
 const router = express.Router({ mergeParams: true }); 
-const {getCourseCodeController} = require('../controllers/getCourseCodeController'); 
+const {getCourseCodeController} = require('../../controllers/reportsTeacher/getCourseCodeController'); 
 
 
 router.get('/course', getCourseCodeController); 

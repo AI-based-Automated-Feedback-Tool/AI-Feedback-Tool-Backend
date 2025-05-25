@@ -1,4 +1,4 @@
-const getExamTitleFromExam = require('../services/getExamTitleService'); // Importing the getExamTitle function from the service layer
+const getExamTitleFromExam = require('../../services/reportsTeacher/getExamTitleService'); // Importing the getExamTitle function from the service layer
 
 const getExamTitle = async (req, res) => {
     try {
