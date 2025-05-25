@@ -33,13 +33,13 @@ app.use('/api/exams', examRoutes);
 app.use('/api/questions', questionAPIRoutes);
 
 //Route to fetch course codes by teacher ID
-app.use('/api/:userId/teacher/reports/', getCourseCodeRoutes  );
+app.use('/api/teacher/reports/course', getCourseCodeRoutes  );
 
 // Route to fetch exam titles by course ID
-app.use('/api/:userId/teacher/reports/exams', getExamTitleRoutes)
+app.use('/api/teacher/reports/exams', getExamTitleRoutes)
 
 // Route to fetch student names by course ID
-app.use('/api/:userId/teacher/reports/students', getStudentNameRoutes);
+app.use('/api/teacher/reports/students', getStudentNameRoutes);
 
 // Start server
 app.listen(PORT, () => {
