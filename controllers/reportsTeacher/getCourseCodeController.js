@@ -1,7 +1,7 @@
 const  getCourseCode = require('../../services/reportsTeacher/getCourseCodeService'); // Importing the getCourseCode function from the service layer
 const getCourseCodeController = async (req, res) => {
     try {
-        const {userId} = req.params;
+        const {userId} = req.query; 
         if (!userId) {
             const err = new Error("User ID is required");
             err.status = 400;
