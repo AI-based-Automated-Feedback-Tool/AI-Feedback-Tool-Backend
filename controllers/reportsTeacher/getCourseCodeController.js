@@ -1,4 +1,4 @@
-const  getCourseCode = require('../services/getCourseCodeService');
+const  getCourseCode = require('../../services/reportsTeacher/getCourseCodeService'); // Importing the getCourseCode function from the service layer
 const getCourseCodeController = async (req, res) => {
     try {
         const {userId} = req.params;
