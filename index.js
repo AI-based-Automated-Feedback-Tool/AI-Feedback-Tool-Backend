@@ -9,6 +9,7 @@ const questionAPIRoutes = require('./routes/questionRoutes');
 const getCourseCodeRoutes = require('./routes/reportsTeacher/getCourseCodeRoute'); // Importing the course code routes
 const getExamTitleRoutes = require('./routes/reportsTeacher/getExamTitleRoutes'); // Importing the exam title routes
 const getStudentNameRoutes = require('./routes/reportsTeacher/getStudentNameRoute'); // Importing the student name routes
+const cohereRoute = require('./routes/cohereRoute');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -40,6 +41,8 @@ app.use('/api/teacher/reports/exams', getExamTitleRoutes)
 
 // Route to fetch student names by course ID
 app.use('/api/teacher/reports/students', getStudentNameRoutes);
+
+app.use('/api/cohere', cohereRoute);
 
 // Start server
 app.listen(PORT, () => {
