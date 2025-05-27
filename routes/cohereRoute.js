@@ -14,7 +14,7 @@ router.post('/generate', async (req, res) => {
     const response = await cohere.generate({
       model: 'command',
       prompt,
-      maxTokens: 100,
+      maxTokens: 500,
       temperature: 0.7,
     });
 
