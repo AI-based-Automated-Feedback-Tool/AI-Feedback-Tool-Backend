@@ -11,6 +11,7 @@ const getExamTitleRoutes = require('./routes/reportsTeacher/getExamTitleRoutes')
 const getStudentNameRoutes = require('./routes/reportsTeacher/getStudentNameRoute'); // Importing the student name routes
 const cohereRoute = require('./routes/cohereRoute');
 const getExamSubmissionRoute = require('./routes/reportsTeacher/getExamSubmissionRoute')
+const getMcqQuestionsRoutes = require('./routes/reportsTeacher/getMcqQuestionsRoutes')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,6 +48,9 @@ app.use('/api/cohere', cohereRoute);
 
 // Route to fetch exam submissions by exam ID
 app.use('/api/teacher/reports/exam_submission', getExamSubmissionRoute)
+
+// Route to fetch mcq questions by exam ID
+app.use('/api/teacher/reports/mcq', getMcqQuestionsRoutes)
 
 // Start server
 app.listen(PORT, () => {
