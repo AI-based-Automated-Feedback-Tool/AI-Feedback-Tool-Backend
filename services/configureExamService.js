@@ -11,14 +11,16 @@ const createExamConfiguration = async (examData) => {
       type: examData.type,
       question_count: examData.question_count,
       ai_assessment_guide: examData.ai_assessment_guide,
-      user_id: examData.user_id 
+      user_id: examData.user_id,
+      start_time: examData.start_time,
+      end_time: examData.end_time
     })
     .select();
 
   if (error) {
     console.error('Supabase error:', error);
     throw new Error('Failed to save exam configuration');
-  }
+  }  
   return data[0];
 };
 
