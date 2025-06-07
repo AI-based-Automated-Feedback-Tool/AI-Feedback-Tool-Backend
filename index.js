@@ -13,6 +13,7 @@ const cohereRoute = require('./routes/cohereRoute');
 const getExamSubmissionRoute = require('./routes/reportsTeacher/getExamSubmissionRoute')
 const getMcqQuestionsRoutes = require('./routes/reportsTeacher/getMcqQuestionsRoutes')
 const getSubmittedAnswersRoutes = require('./routes/reportsTeacher/getSubmittedAnswersRoute'); 
+const aiRoutes = require('./routes/aiRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -55,6 +56,9 @@ app.use('/api/teacher/reports/mcq', getMcqQuestionsRoutes)
 
 //Route to fetch submitted answers by submission ID
 app.use('/api/teacher/reports/submitted_answers', getSubmittedAnswersRoutes);
+
+
+app.use('/api/ai', aiRoutes);
 
 // Start server
 app.listen(PORT, () => {
