@@ -1,4 +1,6 @@
-import {getLanguages} from '../../services/createCodeQuestion/getLanguageService'; 
+const { getLanguages } = require('../../services/createCodeQuestion/getLanguageService');
+
+
 const getLanguagesController = async (req, res) => {
     try {
         const languages = await getLanguages();
@@ -13,4 +15,4 @@ const getLanguagesController = async (req, res) => {
     }
 }
 
-export { getLanguagesController };
+module.exports = { getLanguagesController };

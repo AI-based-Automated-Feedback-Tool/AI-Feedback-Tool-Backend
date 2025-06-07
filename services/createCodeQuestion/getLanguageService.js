@@ -1,4 +1,4 @@
-import { supabase } from '../../supabaseClient';
+const {supabase} = require('../../supabaseClient'); 
 
 async function getLanguages() {
     const {data, error } = await supabase
@@ -19,4 +19,4 @@ async function getLanguages() {
     }
     return data;
 }
-module.exports = getLanguages;
+module.exports = {getLanguages};

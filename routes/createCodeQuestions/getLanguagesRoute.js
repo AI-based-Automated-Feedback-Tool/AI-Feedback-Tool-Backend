@@ -1,7 +1,6 @@
-import { Router } from 'express'; 
-const router = Router({ mergeParams: true }); 
-import { getLanguagesController } from '../../controllers/createCodeQuestions/getLanguagesController';
+const express = require('express');
+const router = express.Router();
+const {getLanguagesController} = require('../../controllers/createCodeQuestions/getLanguagesController');
 
-
-router.get('/', getLanguagesController); 
-export default router; 
+router.get ('/', getLanguagesController);
+module.exports = router;
