@@ -5,7 +5,6 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 async function generateAIForMCQSubmission(submissionId) {
-  // Fetch answers + questions
   const { data: answersData, error } = await supabase
     .from("exam_submissions_answers")
     .select(`
@@ -22,12 +21,11 @@ async function generateAIForMCQSubmission(submissionId) {
     return;
   }
 
-  //  Build AI Prompt
   let prompt = `You are an educational assistant.\n
 Please review the student's MCQ exam results. For each question:
 
 - If correct: praise briefly.
-- If incorrect: explain why the answer is incorrect, and give a tip for improvement.
+- If incorrect: explain why the answer is wrong, and suggest a tip to improve.
 
 Here are the questions and answers:\n\n`;
 
@@ -39,9 +37,8 @@ Here are the questions and answers:\n\n`;
     prompt += `Feedback:\n`;
   });
 
-  prompt += `\nPlease give clear feedback for each question.\n`;
+  prompt += `\nProvide a clear feedback message for each question.\n`;
 
-  //  Call OpenAI API
   const completion = await openai.chat.completions.create({
     model: "gpt-4", // or "gpt-3.5-turbo"
     messages: [
@@ -51,12 +48,8 @@ Here are the questions and answers:\n\n`;
   });
 
   const aiResponse = completion.choices[0].message.content;
-  console.log("AI Response:", aiResponse);
-
-  //  Parse AI response
   const feedbacks = aiResponse.split("Feedback:").slice(1);
 
-  //  Save feedback back into exam_submissions_answers
   for (let i = 0; i < answersData.length; i++) {
     const feedback = feedbacks[i]?.trim() || "No feedback.";
     const answerId = answersData[i].id;
@@ -67,7 +60,7 @@ Here are the questions and answers:\n\n`;
       .eq("id", answerId);
   }
 
-  console.log(" AI feedback saved to exam_submissions_answers.");
+  console.log("✅ AI MCQ feedback stored in database.");
 }
 
 module.exports = { generateAIForMCQSubmission };
