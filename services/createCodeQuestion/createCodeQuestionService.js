@@ -1,6 +1,6 @@
 const {supabase} = require('../../supabaseClient')
 
-async function createCodeQuestion({exam_id, question_text, function_signature, wrapper_code, test_cases, language_id, points, user_id}) {
+async function createCodeQuestion({exam_id, question_description, function_signature, wrapper_code, test_cases, language_id, points, user_id}) {
     const {data: codeExam, error: examError} = await supabase
         .from('exams')
         .select('exam_id, user_id')
@@ -30,7 +30,7 @@ async function createCodeQuestion({exam_id, question_text, function_signature, w
         .insert([
             {
                 exam_id,
-                question_text,
+                question_description,
                 function_signature,
                 wrapper_code,
                 test_cases,

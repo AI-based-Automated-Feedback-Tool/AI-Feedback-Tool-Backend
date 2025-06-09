@@ -1,4 +1,4 @@
-const addCodeQuestion = require('../../services/createCodeQuestion/getLanguageService')
+const addCodeQuestion = require('../../services/createCodeQuestion/createCodeQuestionService')
 
 const createCodeQuestion =  async (req, res) => {
     try {
