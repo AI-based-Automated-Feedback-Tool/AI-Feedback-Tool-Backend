@@ -60,7 +60,7 @@ Here are the questions and answers:\n\n`;
       .eq("id", answerId);
   }
 
-  console.log("✅ AI MCQ feedback stored in database.");
+  console.log(" AI MCQ feedback stored in database.");
 }
 
 module.exports = { generateAIForMCQSubmission };
