@@ -1,21 +1,29 @@
-const express = require("express");
-const router = express.Router();
-const { generateAIForMCQSubmission } = require("../services/aiServices/generateMcqFeedbackService");
+// routes/mcqFeedbackRoutes.js
 
-// POST /api/mcq-feedback
-router.post("/mcq-feedback", async (req, res) => {
+const express = require('express');
+const router = express.Router();
+const { generateAIForMCQSubmission } = require('../services/aiServices/generateMcqFeedbackService');
+
+router.post('/', async (req, res) => {
   const { submissionId } = req.body;
 
+  console.log(' Received POST /api/mcq-feedback with submissionId:', submissionId);
+
+  // Validation
   if (!submissionId) {
-    return res.status(400).json({ error: "submissionId is required" });
+    console.error(' submissionId missing in request body');
+    return res.status(400).json({ error: 'submissionId is required' });
   }
 
   try {
+    console.log(' Starting AI feedback generation...');
     await generateAIForMCQSubmission(submissionId);
-    res.status(200).json({ message: "AI MCQ feedback generation complete." });
-  } catch (error) {
-    console.error("[MCQ Feedback Error]:", error);
-    res.status(500).json({ error: "Failed to generate MCQ feedback." });
+    console.log(' AI feedback generation completed successfully');
+
+    res.status(200).json({ message: 'AI feedback generated successfully' });
+  } catch (err) {
+    console.error(' Error during AI feedback generation:', err);
+    res.status(500).json({ error: 'Failed to generate AI feedback', details: err.message });
   }
 });
 
