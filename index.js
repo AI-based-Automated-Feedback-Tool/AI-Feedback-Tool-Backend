@@ -15,12 +15,14 @@ const getSubmittedAnswersRoutes = require('./routes/reportsTeacher/getSubmittedA
 const aiRoutes = require('./routes/aiRoutes');
 const getLanguagesRoute = require('./routes/createCodeQuestions/getLanguagesRoute'); 
 const createCodeQuestionRoute = require('./routes/createCodeQuestions/createCodeQuestionRoute'); 
+const getCodeQuestionRoute = require('./routes/getCodeQuestionsRoute')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+
 app.use(express.json());
 
 // Root route
@@ -64,6 +66,8 @@ app.use('/api/createCodeQuestions/languages', getLanguagesRoute);
 
 //Route to create code questions
 app.use('/api/createCodeQuestion', createCodeQuestionRoute)
+// Route to fetch all code questions
+app.use('/api/codequestions', getCodeQuestionRoute);
 
 // Start server
 app.listen(PORT, () => {
