@@ -1,1 +1,7 @@
+//to get codeQuestion
 GET http://localhost:5000/api/codequestions
+
+
+###
+//to fetch programming language
+GET http://localhost:5000/api/createCodeQuestions/languages
