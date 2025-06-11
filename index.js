@@ -14,6 +14,7 @@ const getMcqQuestionsRoutes = require('./routes/reportsTeacher/getMcqQuestionsRo
 const getSubmittedAnswersRoutes = require('./routes/reportsTeacher/getSubmittedAnswersRoute'); 
 const aiRoutes = require('./routes/aiRoutes');
 const getLanguagesRoute = require('./routes/createCodeQuestions/getLanguagesRoute'); 
+const createCodeQuestionRoute = require('./routes/createCodeQuestions/createCodeQuestionRoute'); 
 const mcqFeedbackRoutes = require('./routes/mcqFeedbackRoutes');
 
 const app = express();
@@ -61,6 +62,9 @@ app.use('/api/ai', aiRoutes);
 
 //Route to fetch programming languages
 app.use('/api/createCodeQuestions/languages', getLanguagesRoute);
+
+//Route to create code questions
+app.use('/api/createCodeQuestion', createCodeQuestionRoute)
 
 // Route for MCQ feedback generation
 app.use('/api/mcq-feedback', mcqFeedbackRoutes);
