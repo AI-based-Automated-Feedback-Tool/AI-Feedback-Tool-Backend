@@ -4,10 +4,10 @@ const cohereService = require('./cohereService');
 
 const generateAIForMCQSubmission = async (submissionId) => {
   try {
-    console.log(`🔵 generateAIForMCQSubmission called with submissionId: ${submissionId}`);
+    console.log(`generateAIForMCQSubmission called with submissionId: ${submissionId}`);
 
     // Fetch submitted answers with related question and student answer
-    console.log(`🟡 Fetching answers for submissionId: ${submissionId}`);
+    console.log(` Fetching answers for submissionId: ${submissionId}`);
     const { data: answersData, error: answersError } = await supabase
       .from('exam_submissions_answers')
       .select(
@@ -21,7 +21,7 @@ const generateAIForMCQSubmission = async (submissionId) => {
 
     if (answersError) throw new Error(`Error fetching answers: ${answersError.message}`);
 
-    console.log(`✅ Fetched ${answersData.length} answers.`);
+    console.log(` Fetched ${answersData.length} answers.`);
 
     // Build prompt
     let prompt = `You are an expert tutor providing detailed feedback to a student based on their answers to multiple-choice questions. For each question, explain why the student's answer is correct or incorrect, and give learning advice.\n\n`;
@@ -39,14 +39,14 @@ const generateAIForMCQSubmission = async (submissionId) => {
       prompt += `Feedback:\n`;
     });
 
-    console.log(`🟡 Sending prompt to Cohere...`);
-    console.log(`📝 Prompt length (characters): ${prompt.length}`);
+    console.log(`Sending prompt to Cohere...`);
+    console.log(`Prompt length (characters): ${prompt.length}`);
 
     // Call Cohere AI
     const cohereResponse = await cohereService.generate(prompt);
     const aiFeedback = cohereResponse || 'No feedback generated.';
 
-    console.log(`✅ Received AI feedback from Cohere.`);
+    console.log(` Received AI feedback from Cohere.`);
 
     // Update all rows with the same AI feedback
     const { error: updateError } = await supabase
@@ -56,10 +56,10 @@ const generateAIForMCQSubmission = async (submissionId) => {
 
     if (updateError) throw new Error(`Error updating feedback: ${updateError.message}`);
 
-    console.log(`✅ AI feedback saved to exam_submissions_answers.`);
+    console.log(`AI feedback saved to exam_submissions_answers.`);
 
   } catch (err) {
-    console.error('❌ [MCQ Feedback Error]:', err);
+    console.error('[MCQ Feedback Error]:', err);
     throw err;
   }
 };
