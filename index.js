@@ -17,6 +17,7 @@ const getLanguagesRoute = require('./routes/createCodeQuestions/getLanguagesRout
 const createCodeQuestionRoute = require('./routes/createCodeQuestions/createCodeQuestionRoute'); 
 const mcqFeedbackRoutes = require('./routes/mcqFeedbackRoutes');
 const getCodeQuestionRoute = require('./routes/getCodeQuestionsRoute')
+const fileUploadRoute = require('./routes/createEssayQuestions/fileUploadRoute');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -71,6 +72,9 @@ app.use('/api/codequestions', getCodeQuestionRoute);
 
 // Route for MCQ feedback generation
 app.use('/api/mcq-feedback', mcqFeedbackRoutes);
+
+// Route to handle file uploads for essay questions
+app.use('/api/upload', fileUploadRoute);
 
 // Start server
 app.listen(PORT, () => {
