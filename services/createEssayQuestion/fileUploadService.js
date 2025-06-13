@@ -3,7 +3,7 @@ const { supabase } = require('../../supabaseClient');
 async function saveFileToSupabase(file) {
     const filePath = `attachments/${Date.now()}_${file.originalname}`;
     const {data , error} = await supabase.storage
-        .from('attachments')
+        .from('essay-attachments')
         .upload(filePath, file.buffer, {
             contentType: file.mimetype,
             upsert: true
@@ -16,7 +16,7 @@ async function saveFileToSupabase(file) {
         }
 
         const {publicUrl} = supabase.storage
-            .from('attachments')
+            .from('essay-attachments')
             .getPublicUrl(filePath).data;
         return publicUrl;
 }
