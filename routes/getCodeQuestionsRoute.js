@@ -4,14 +4,13 @@ const getCodeQuestions = require('../controllers/createCodeQuestions/getCodeQues
 
 // Route to fetch all code questions
 router.get('/', async (req, res) => {
-    try {
-        //call the controller
-        const questions = await getCodeQuestions(); 
-        res.status(200).json({ message: "Code questions fetched successfully", questions });
-    } catch (error) {
-        console.error("Error in route:", error);
-        res.status(error.status || 500).json({ message: error.message || "Internal Server Error" });
-    }
+    const { exam_id, course_id } = req.query;
+  try {
+    const questions = await getCodeQuestions({ exam_id, course_id });
+    res.status(200).json({ questions });
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message });
+  }
 });
 
 module.exports = router;

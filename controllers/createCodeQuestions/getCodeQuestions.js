@@ -1,10 +1,16 @@
 const { supabase } = require('../../supabaseClient');
 
-async function getCodeQuestions() {
+async function getCodeQuestions({ exam_id, course_id }) {
     try {
-        const { data, error } = await supabase
-            .from('code_questions')
-            .select('*'); //fetch all columns from the code_questions table
+        let query = supabase.from('code_questions').select('*');
+
+        if (exam_id) {
+            query = query.eq('exam_id', exam_id);
+        } else if (course_id) {
+            query = query.eq('course_id', course_id);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             console.error("Supabase error:", error);
@@ -19,9 +25,9 @@ async function getCodeQuestions() {
             throw err;
         }
 
-        return data; //return the fetched code questions
+        return data;
     } catch (err) {
-        throw err; //propagate the error to the caller
+        throw err;
     }
 }
 
