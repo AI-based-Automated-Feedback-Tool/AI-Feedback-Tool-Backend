@@ -1,64 +1,77 @@
-const { supabase } = require('../../supabaseClient');
+const { supabase } = require("../../supabaseClient");
 
-async function postExamSubmission(submissionData, answers) {
-    try {
-          // Fetch the authenticated user's user_id
-          const { data: { user }, error: userError } = await supabase.auth.getUser();
-          if (userError || !user) {
-              console.error("Error fetching user:", userError);
-              throw new Error("User not authenticated");
-          }
-          const userId = user.id;
-  
-        // Insert submission data including student_id and exam_id
-        const { data: submission, error: submissionError } = await supabase
-            .from('exam_submissions')
-            .insert([{
-                student_id: userId,
-                exam_id: submissionData.exam_id,
-                total_score: submissionData.total_score || 0,
-                time_taken: submissionData.time_taken, 
-                focus_loss_count: submissionData.focus_loss_count, 
-                feedback_summery: submissionData.feedback_summery || null,
-                submitted_at: new Date().toISOString()
-            }])
-            .select(); //fetch the inserted record for further processing
+exports.submitCodeAnswers = async (req, res) => {
+  const { userId, exam_id, answers, timeTaken, focusLossCount } = req.body;
 
-        if (submissionError) {
-            console.error("Error inserting into exam_submissions:", submissionError);
-            throw new Error("Failed to insert exam submission");
-        }
+  if (!userId || !exam_id || !Array.isArray(answers)) {
+    return res.status(400).json({ error: "Missing required data" });
+  }
 
-        const submissionId = submission[0].id;
+  try {
+    // Insert into exam_submissions
+    const { data: submissionData, error: submissionError } = await supabase
+      .from("exam_submissions")
+      .insert([
+        {
+          submitted_at: new Date().toISOString(),
+          student_id: userId,
+          exam_id: exam_id,
+          total_score: 0, // will be updated later
+          time_taken: timeTaken,
+          focus_loss_count: focusLossCount,
+        },
+      ])
+      .select();
 
-        const answersWithSubmissionId = answers.map(answer => ({
-            student_answer: answer.student_answer,
-            is_correct: answer.is_correct,
-            score: answer.score,
-            ai_feedback: answer.ai_feedback,
-            question_id: answer.question_id,
-            submission_id: submissionId,
-            model_answer_basic: answer.model_answer_basic || "N/A",
-            model_answer_advanced: answer.model_answer_advanced || "N/A"
-        }));
-
-        const { data: answersData, error: answersError } = await supabase
-            .from('exam_submissions_answers')
-            .insert(answersWithSubmissionId);
-
-        if (answersError) {
-            console.error("Error inserting into exam_submissions_answer:", answersError);
-            throw new Error("Failed to insert exam submission answers");
-        }
-
-        return {
-            submission: submission[0], 
-            answers: answersData 
-        };
-    } catch (err) {
-        console.error("Error in postExamSubmission:", err);
-        throw err;
+    if (submissionError) {
+      console.error(submissionError);
+      return res.status(500).json({ error: "Submission insert failed" });
     }
-}
 
-module.exports = postExamSubmission;
+    const submissionId = submissionData[0].id;
+    let totalScore = 0;
+    const results = [];
+
+    for (const answer of answers) {
+      const { questionId, code } = answer;
+
+      // Fetch code question info
+      const { data: question, error: questionError } = await supabase
+        .from("code_questions")
+        .select("*")
+        .eq("id", questionId)
+        .single();
+
+      if (questionError || !question) {
+        console.warn(`Failed to fetch question ${questionId}`);
+        continue;
+      }
+
+      //hardcoded score and correctness
+      const isCorrect = false;
+      const score = 0;
+      totalScore += score;
+
+      results.push({
+        student_answer: code,
+        is_correct: isCorrect,
+        score,
+        ai_feedback: "Great attempt! Consider edge cases and improve code readability.",
+        question_id: questionId,
+        submission_id: submissionId,
+      });
+    }
+
+    await supabase.from("exam_submissions_answers").insert(results);
+
+    await supabase
+      .from("exam_submissions")
+      .update({ total_score: totalScore })
+      .eq("id", submissionId);
+
+    return res.status(200).json({ success: true, totalScore, submissionId });
+  } catch (err) {
+    console.error("Controller error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
