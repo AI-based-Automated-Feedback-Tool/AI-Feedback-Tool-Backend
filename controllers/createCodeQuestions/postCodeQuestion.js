@@ -23,10 +23,10 @@ exports.submitCodeAnswers = async (req, res) => {
       ])
       .select();
 
-    if (submissionError) {
-      console.error(submissionError);
-      return res.status(500).json({ error: "Submission insert failed" });
-    }
+      if (submissionError || !submissionData || !submissionData[0]) {
+        console.error("Submission insert failed:", submissionError);
+        return res.status(500).json({ error: "Submission insert failed" });
+      }
 
     const submissionId = submissionData[0].id;
     let totalScore = 0;
@@ -62,16 +62,28 @@ exports.submitCodeAnswers = async (req, res) => {
       });
     }
 
-    await supabase.from("exam_submissions_answers").insert(results);
-
-    await supabase
-      .from("exam_submissions")
-      .update({ total_score: totalScore })
-      .eq("id", submissionId);
-
-    return res.status(200).json({ success: true, totalScore, submissionId });
-  } catch (err) {
-    console.error("Controller error:", err);
-    return res.status(500).json({ error: "Server error" });
-  }
-};
+    // Insert code question answers into new table code_submissions_answers
+    if (results.length > 0) {
+        const { error: insertAnswersError } = await supabase
+          .from("code_submissions_answers")
+          .insert(results);
+  
+        if (insertAnswersError) {
+          console.error("Error inserting code answers:", insertAnswersError);
+          return res.status(500).json({ error: "Code answers insert failed" });
+        }
+      }
+  
+      // Update total_score in exam_submissions
+      await supabase
+        .from("exam_submissions")
+        .update({ total_score: totalScore })
+        .eq("id", submissionId);
+  
+      return res.status(200).json({ success: true, totalScore, submissionId });
+    } catch (err) {
+      console.error("Server error:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+  };
+  
