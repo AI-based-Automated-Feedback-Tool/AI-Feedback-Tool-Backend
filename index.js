@@ -18,6 +18,9 @@ const createCodeQuestionRoute = require("./routes/createCodeQuestions/createCode
 const mcqFeedbackRoutes = require("./routes/mcqFeedbackRoutes");
 const getCodeQuestionRoute = require("./routes/getCodeQuestionsRoute");
 const codeSubmissionRoutes = require("./routes/postCodeQuestions");
+const fileUploadRoute = require('./routes/createEssayQuestions/fileUploadRoute');
+const fileDeleteRoute = require('./routes/createEssayQuestions/fileDeleteRoute'); 
+const createEssayQuestionRoute = require('./routes/createEssayQuestions/createEssayQuestionRoute'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -73,6 +76,15 @@ app.use("/api/codequestions", getCodeQuestionRoute);
 app.use("/api/mcq-feedback", mcqFeedbackRoutes);
 //to submit code questions
 app.use("/api/code-submission", codeSubmissionRoutes);
+
+// Route to handle file uploads for essay questions
+app.use("/api/upload", fileUploadRoute);
+
+// Route to handle file deletion for essay questions
+app.use("/api/essayQuestions/delete-attachment", fileDeleteRoute);
+
+// Route to create essay questions
+app.use("/api/createEssayQuestion", createEssayQuestionRoute);
 
 // Start server
 app.listen(PORT, () => {
