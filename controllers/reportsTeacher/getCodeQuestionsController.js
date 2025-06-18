@@ -1,8 +1,8 @@
-const getCodeQuestions = require('../../services/reportsTeacher/getCodeQuestions');
+const getCodeQuestions = require('../../services/reportsTeacher/getCodeQuestionsService');
 
 const getCodeQuestionDetails = async (req, res) => {
     try {
-        const examId = req.query;
+        const {examId} = req.query;
         if (!examId) {
             const err = new Error("Exam ID is required");
             err.status = 400;

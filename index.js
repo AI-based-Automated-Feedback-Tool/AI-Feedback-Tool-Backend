@@ -21,6 +21,7 @@ const codeSubmissionRoutes = require("./routes/postCodeQuestions");
 const fileUploadRoute = require('./routes/createEssayQuestions/fileUploadRoute');
 const fileDeleteRoute = require('./routes/createEssayQuestions/fileDeleteRoute'); 
 const createEssayQuestionRoute = require('./routes/createEssayQuestions/createEssayQuestionRoute'); 
+const getCodeQuestionsRoute = require('./routes/reportsTeacher/getCodeQuestionsRoute');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -85,6 +86,9 @@ app.use("/api/essayQuestions/delete-attachment", fileDeleteRoute);
 
 // Route to create essay questions
 app.use("/api/createEssayQuestion", createEssayQuestionRoute);
+
+// Route to fetch code questions by exam ID
+app.use("/api/teacher/reports/code_questions", getCodeQuestionsRoute);
 
 // Start server
 app.listen(PORT, () => {
