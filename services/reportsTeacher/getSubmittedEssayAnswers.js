@@ -2,7 +2,7 @@ const {supabase} = require('../../supabaseClient')
 
 async function getSubmittedEssayAnswers({submission_id}) {
     const { data,error } = await supabase
-        .from('essay_exams_submissions_answers')
+        .from('essay_exam_submissions_answers')
         .select('*')
         .eq('submission_id', submission_id)
 

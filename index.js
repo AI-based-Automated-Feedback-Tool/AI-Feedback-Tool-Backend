@@ -24,6 +24,7 @@ const createEssayQuestionRoute = require('./routes/createEssayQuestions/createEs
 const getCodeQuestionsRoute = require('./routes/reportsTeacher/getCodeQuestionsRoute');
 const getCodeAnswersRoute = require('./routes/reportsTeacher/getSubmittedCodeAnswersRoute');
 const getEssayQuestionsRoute = require('./routes/reportsTeacher/getEssayQuestionsRoute'); 
+const getEssayAnswersRoute = require('./routes/reportsTeacher/getSubmittedEssayAnswersRoute');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -97,6 +98,9 @@ app.use("/api/teacher/reports/submitted_code_answers", getCodeAnswersRoute);
 
 // Route to fetch essay questions by exam ID
 app.use("/api/teacher/reports/essay_questions", getEssayQuestionsRoute);
+
+// Route to fetch submitted essay answers by submission ID
+app.use("/api/teacher/reports/submitted_essay_answers", getEssayAnswersRoute);
 
 // Start server
 app.listen(PORT, () => {
