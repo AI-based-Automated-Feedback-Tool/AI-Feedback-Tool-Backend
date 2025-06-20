@@ -23,6 +23,7 @@ const fileDeleteRoute = require('./routes/createEssayQuestions/fileDeleteRoute')
 const createEssayQuestionRoute = require('./routes/createEssayQuestions/createEssayQuestionRoute'); 
 const getCodeQuestionsRoute = require('./routes/reportsTeacher/getCodeQuestionsRoute');
 const getCodeAnswersRoute = require('./routes/reportsTeacher/getSubmittedCodeAnswersRoute');
+const getEssayQuestionsRoute = require('./routes/reportsTeacher/getEssayQuestionsRoute'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -93,6 +94,9 @@ app.use("/api/teacher/reports/code_questions", getCodeQuestionsRoute);
 
 // Route to fetch submitted code answers by submission ID
 app.use("/api/teacher/reports/submitted_code_answers", getCodeAnswersRoute);
+
+// Route to fetch essay questions by exam ID
+app.use("/api/teacher/reports/essay_questions", getEssayQuestionsRoute);
 
 // Start server
 app.listen(PORT, () => {
