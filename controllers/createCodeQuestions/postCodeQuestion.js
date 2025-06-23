@@ -8,6 +8,7 @@ exports.submitCodeAnswers = async (req, res) => {
   }
 
   try {
+    console.log("Received submission:", { userId, exam_id, answers, timeTaken, focusLossCount });
     // Insert into exam_submissions
     const { data: submissionData, error: submissionError } = await supabase
       .from("exam_submissions")
@@ -33,13 +34,19 @@ exports.submitCodeAnswers = async (req, res) => {
     const results = [];
 
     for (const answer of answers) {
+      console.log("Answer received:", answer); 
       const { questionId, code } = answer;
+
+      if (!questionId) {
+        console.warn("Missing questionId in answer:", answer);
+        continue;
+      }
 
       // Fetch code question info
       const { data: question, error: questionError } = await supabase
         .from("code_questions")
         .select("*")
-        .eq("id", questionId)
+        .eq("question_id", questionId)
         .single();
 
       if (questionError || !question) {
