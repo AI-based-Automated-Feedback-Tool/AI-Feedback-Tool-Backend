@@ -1,13 +1,13 @@
 const  getStudentExamDetails = require('../../services/reportsTeacher/getStdentExamDetailsService'); 
 const getStudentExamDetailsController = async (req, res) => {
     try {
-        const {examId, studentId} = req.query; 
-        if (!examId || !studentId) {
-            const err = new Error("Exam ID and Student ID are required");
+        const {examId, studentId, examType} = req.query; 
+        if (!examId || !studentId || !examType) {
+            const err = new Error("Exam ID, Student ID, and Exam Type are required");
             err.status = 400;
             throw err;
         }
-        const submittedAnswers = await getStudentExamDetails({exam_id: examId, student_id: studentId});
+        const submittedAnswers = await getStudentExamDetails({exam_id: examId, student_id: studentId, exam_type: examType});
 
         res.status(200).json({
             message: "Student exam details retrieved successfully", 
