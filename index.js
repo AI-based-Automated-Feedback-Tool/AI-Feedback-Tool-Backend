@@ -26,6 +26,7 @@ const getCodeAnswersRoute = require('./routes/reportsTeacher/getSubmittedCodeAns
 const getEssayQuestionsRoute = require('./routes/reportsTeacher/getEssayQuestionsRoute'); 
 const getEssayAnswersRoute = require('./routes/reportsTeacher/getSubmittedEssayAnswersRoute');
 const studentExamDetailsRoute = require('./routes/reportsTeacher/getStudentExamDetailsRoute'); 
+const saveCourseRoute = require("./routes/registerCourse/registerCourseRoute");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -105,6 +106,9 @@ app.use("/api/teacher/reports/submitted_essay_answers", getEssayAnswersRoute);
 
 // Route to fetch student exam details by submission ID and student ID
 app.use("/api/teacher/reports/student_exam_details", studentExamDetailsRoute);
+
+// Route to save course
+app.use("/api/registerCourse", saveCourseRoute);
 
 // Start server
 app.listen(PORT, () => {
