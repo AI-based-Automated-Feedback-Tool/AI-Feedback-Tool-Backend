@@ -27,7 +27,8 @@
     "express": "^5.1.0",
     "multer": "^2.0.1",
     "node-fetch": "^2.7.0",
-    "openai": "^5.3.0"
+    "openai": "^5.3.0",
+    "vm2": "^3.9.19"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
