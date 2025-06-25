@@ -1,11 +1,11 @@
 const {supabase} = require('../../supabaseClient')
 
-async function registerCourse({ user_id, course_name, course_description, course_code }) {
+async function registerCourse({ user_id, title, description, course_code }) {
     const {data: course, error: courseError} = await supabase
         .from('courses')
         .select('course_code')
         .eq('course_code', course_code)
-        .single();
+        .maybeSingle(); // This avoids throwing error when no match is found
     // Check if there was an error while fetching the course
      if (courseError) {
         const err = new Error("Error checking for existing course");
@@ -24,9 +24,9 @@ async function registerCourse({ user_id, course_name, course_description, course
         .from('courses')
         .insert([
             {
-                title: course_name,
-                description: course_description,
-                user_id ,
+                title,
+                description,
+                user_id,
                 course_code
             }
         ])
