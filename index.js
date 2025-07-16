@@ -29,6 +29,7 @@ const studentExamDetailsRoute = require('./routes/reportsTeacher/getStudentExamD
 const saveCourseRoute = require("./routes/registerCourse/registerCourseRoute");
 const getExamDetailsRoute = require("./routes/examDetails/fetchExamDetailsRoute");
 const editExamDetailsRoute = require("./routes/examDetails/editExamDetailsRoute");
+const studentEssayQuestionsRoute = require('./routes/essayQuestions');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -117,6 +118,9 @@ app.use("/api/examDetails", getExamDetailsRoute);
 
 // Route to edit exam details
 app.use("/api/editExamDetails", editExamDetailsRoute);
+
+// Routes for students to fetch and submit essay question answers
+app.use("/api/student-essay-questions", studentEssayQuestionsRoute);
 
 // Start server
 app.listen(PORT, () => {
