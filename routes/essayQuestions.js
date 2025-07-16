@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { submitEssayAnswers } = require('../controllers/essayQuestionsController');
+const { 
+    getEssayQuestionsByExamId, 
+    submitEssayAnswers 
+} = require('../controllers/essayQuestionsController');
 
-
+// GET: Fetch essay questions by exam ID
 router.get('/:examId', getEssayQuestionsByExamId);
 
-// Endpoint to submit essay answers
+// POST: Submit essay answers
 router.post('/submit', submitEssayAnswers);
 
 module.exports = router;
