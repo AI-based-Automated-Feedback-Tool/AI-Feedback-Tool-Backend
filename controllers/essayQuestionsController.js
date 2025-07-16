@@ -1,5 +1,22 @@
 const { supabase } = require('../supabaseClient');
 
+// Fetch essay questions by exam ID
+const getEssayQuestionsByExamId = async (req, res) => {
+    const { examId } = req.params;
+    console.log('Fetching essay questions for exam ID:', examId);
+
+    const { data, error } = await supabase
+        .from('essay_questions')
+        .select('*')
+        .eq('exam_id', examId);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.json(data);
+};
+
 // Submit essay answers
 const submitEssayAnswers = async (req, res) => {
     try {
@@ -9,7 +26,6 @@ const submitEssayAnswers = async (req, res) => {
             return res.status(400).json({ error: "Missing required fields or answers." });
         }
 
-        // Format answers for insertion
         const formattedAnswers = answers.map(answer => ({
             submission_id,
             question_id: answer.question_id,
@@ -34,5 +50,6 @@ const submitEssayAnswers = async (req, res) => {
 };
 
 module.exports = {
+    getEssayQuestionsByExamId,
     submitEssayAnswers
 };
