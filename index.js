@@ -119,6 +119,7 @@ app.use("/api/examDetails", getExamDetailsRoute);
 // Route to edit exam details
 app.use("/api/editExamDetails", editExamDetailsRoute);
 
+// Routes for students to fetch and submit essay question answers
 app.use("/api/student-essay-questions", studentEssayQuestionsRoute);
 
 // Start server
