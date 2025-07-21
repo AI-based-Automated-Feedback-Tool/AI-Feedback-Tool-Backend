@@ -5,10 +5,16 @@ const getEssayQuestionsByExamId = async (req, res) => {
     const { examId } = req.params;
     console.log('Fetching essay questions for exam ID:', examId);
 
+    const examIdTrimmed = examId.trim();
+    console.log('Trimmed examId:', examIdTrimmed);
+
     const { data, error } = await supabase
         .from('essay_questions')
         .select('*')
         .eq('exam_id', examId);
+
+          console.log('Query result:', data);
+          console.log('Query error:', error);
 
     if (error) {
         return res.status(500).json({ error: error.message });
