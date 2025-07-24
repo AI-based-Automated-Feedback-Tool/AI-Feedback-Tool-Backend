@@ -1,4 +1,6 @@
 const { supabase } = require('../supabaseClient');
+const { v4: uuidv4 } = require('uuid');
+
 
 // Fetch essay questions by exam ID
 const getEssayQuestionsByExamId = async (req, res) => {
