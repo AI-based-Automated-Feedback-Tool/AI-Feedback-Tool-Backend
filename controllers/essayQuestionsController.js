@@ -57,6 +57,36 @@ const submitEssayAnswers = async (req, res) => {
     }
 };
 
+//  Create a new submission (before submitting answers)
+const createEssaySubmission = async (req, res) => {
+    try {
+        const { student_id, exam_id } = req.body;
+
+        if (!student_id || !exam_id) {
+            return res.status(400).json({ error: "Missing student_id or exam_id." });
+        }
+
+        const submission_id = uuidv4(); // Generate unique ID or let Supabase do it
+
+        const { data, error } = await supabase
+            .from('exam_submissions')
+            .insert([{ id: submission_id, student_id, exam_id }])
+            .select()
+            .single();
+
+        if (error) {
+            console.error("Error creating submission:", error);
+            return res.status(500).json({ error: "Failed to create submission." });
+        }
+
+        res.status(201).json({ submission_id: data.id });
+
+    } catch (err) {
+        console.error("Server error during submission creation:", err);
+        res.status(500).json({ error: "Internal server error." });
+    }
+};
+
 module.exports = {
     getEssayQuestionsByExamId,
     submitEssayAnswers
