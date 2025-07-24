@@ -89,5 +89,6 @@ const createEssaySubmission = async (req, res) => {
 
 module.exports = {
     getEssayQuestionsByExamId,
-    submitEssayAnswers
+    submitEssayAnswers,
+    createEssaySubmission
 };
