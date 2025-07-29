@@ -17,6 +17,10 @@ router.post('/generate-essay-feedback', async (req, res) => {
     .select('id, student_answer')
     .eq('submission_id', submissionId);
 
+    
+  console.log('Supabase answers:', answers);
+  console.log('Supabase error:', error);
+
   if (error || !answers || answers.length === 0) {
     return res.status(404).json({ error: 'No answers found for this submission' });
   }

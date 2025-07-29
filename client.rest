@@ -12,5 +12,5 @@ POST http://localhost:3000/api/essay-feedback/generate-essay-feedback
 Content-Type: application/json
 
 {
-  "submissionId": "your_submission_id_here",
+  "submissionId": "df2f0b7d-d755-40ec-9a6c-520180e38a2a"
 }
