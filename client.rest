@@ -5,3 +5,12 @@ GET http://localhost:3000/api/codequestions
 ###
 //to fetch programming language
 GET http://localhost:3000/api/createCodeQuestions/languages
+
+### 
+# Generate AI Feedback for Essay Answers
+POST http://localhost:3000/api/essay-feedback/generate-essay-feedback
+Content-Type: application/json
+
+{
+  "submissionId": "your_submission_id_here",
+}
