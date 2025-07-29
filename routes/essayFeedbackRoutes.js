@@ -64,4 +64,19 @@ router.post('/generate-essay-feedback', async (req, res) => {
   }
 });
 
+    for (const answer of answers) {
+      const parsedAnswer = JSON.parse(answer.student_answer);
+      const prompt = `Provide constructive feedback for this answer:\n"${parsedAnswer.text}"`;
+
+      const feedbackText = await generateFeedback(prompt);
+
+      await supabase
+        .from('essay_exam_submissions_answers')
+        .update({ ai_feedback: { comment: feedbackText } })
+        .eq('id', answer.id);
+    }
+
+    return res.status(200).json({ success: true, message: 'AI feedback generated successfully.' });
+
+
 
