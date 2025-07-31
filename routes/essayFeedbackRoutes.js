@@ -17,27 +17,21 @@ router.post('/generate-essay-feedback', async (req, res) => {
     .select('id, student_answer')
     .eq('submission_id', submissionId);
 
-  console.log('Received submissionId:', submissionId);
-  console.log('Supabase answers:', answers);
-  console.log('Supabase error:', error);
+  console.log('📩 Received submissionId:', submissionId);
+  console.log('📄 Supabase answers:', answers);
+  if (error) console.error('❌ Supabase error:', error);
 
   if (error || !answers || answers.length === 0) {
     return res.status(404).json({ error: 'No answers found for this submission' });
   }
 
   try {
-    // Step 2: Generate and save feedback for each valid answer
+    // Step 2: Generate and save feedback for each answer
     for (const answer of answers) {
-      if (!answer.student_answer) {
-        console.warn(`Skipping answer ${answer.id}: student_answer is null or empty.`);
-        continue;
-      }
+      const parsedAnswer = answer.student_answer;
 
-      let parsedAnswer;
-      try {
-        parsedAnswer = JSON.parse(answer.student_answer);
-      } catch (parseError) {
-        console.warn(`Skipping answer ${answer.id}: JSON parse error: ${parseError.message}`);
+      if (!parsedAnswer || typeof parsedAnswer !== 'object' || !parsedAnswer.text) {
+        console.warn(`⚠️ Skipping answer ${answer.id}: Invalid or missing student_answer.text`);
         continue;
       }
 
@@ -45,18 +39,23 @@ router.post('/generate-essay-feedback', async (req, res) => {
 
       let feedbackText;
       try {
-        feedbackText = await generateFeedback(prompt); // ✅ From cohereService
+        feedbackText = await generateFeedback(prompt); // ✅ AI call
       } catch (generationError) {
-        console.error(`AI generation failed for answer ${answer.id}: ${generationError.message}`);
+        console.error(`❌ AI generation failed for answer ${answer.id}: ${generationError.message}`);
         continue;
       }
 
-      await supabase
+      // Step 3: Save feedback to Supabase
+      const { error: updateError } = await supabase
         .from('essay_exam_submissions_answers')
         .update({ ai_feedback: { comment: feedbackText } })
         .eq('id', answer.id);
 
-      console.log(`✅ Feedback saved for answer ${answer.id}:`, feedbackText);
+      if (updateError) {
+        console.error(`❌ Error saving feedback for ${answer.id}:`, updateError);
+      } else {
+        console.log(`✅ Feedback saved for answer ${answer.id}:`, feedbackText);
+      }
     }
 
     return res.status(200).json({ success: true, message: 'AI feedback generated and saved.' });
