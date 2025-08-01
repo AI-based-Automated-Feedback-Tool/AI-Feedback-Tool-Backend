@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { supabase } = require('../supabaseClient');
-const { generateFeedback } = require('../services/aiServices/openrouterService'); // Or cohereService
+const { generateAIForEssaySubmission } = require('../services/aiServices/generateEssayFeedbackService'); // ✅ call separate service
 
 // POST /api/essay-feedback/generate-essay-feedback
 router.post('/generate-essay-feedback', async (req, res) => {
@@ -11,42 +10,38 @@ router.post('/generate-essay-feedback', async (req, res) => {
     return res.status(400).json({ error: 'submissionId is required' });
   }
 
-  // Step 1: Fetch all essay answers for the given submission
-  const { data: answers, error } = await supabase
-    .from('essay_exam_submissions_answers')
-    .select('id, student_answer')
-    .eq('submission_id', submissionId);
+  const result = await generateAIForEssaySubmission(submissionId);
 
-  console.log('Received submissionId:', submissionId);  
-  console.log('Supabase answers:', answers);
-  console.log('Supabase error:', error);
-
-  if (error || !answers || answers.length === 0) {
-    return res.status(404).json({ error: 'No answers found for this submission' });
-  }
-
-  try {
-    // Step 2: Generate and save feedback for each answer
-    for (const answer of answers) {
-      const parsedAnswer = JSON.parse(answer.student_answer);
-      const prompt = `Provide constructive feedback for this answer:\n"${parsedAnswer.text}"`;
-
-      const feedbackText = await generateFeedback(prompt);
-
-      // Step 3: Save feedback in Supabase
-      await supabase
-        .from('essay_exam_submissions_answers')
-        .update({ ai_feedback: { comment: feedbackText } })
-        .eq('id', answer.id);
-
-      console.log(`Feedback saved for answer ${answer.id}:`, feedbackText);
-    }
-
-    return res.status(200).json({ success: true, message: 'AI feedback generated and saved.' });
-  } catch (err) {
-    console.error('Error generating feedback:', err.message);
-    return res.status(500).json({ error: 'AI generation failed' });
+  if (result.success) {
+    res.status(200).json(result);
+  } else {
+    res.status(500).json(result);
   }
 });
+
+// GET /api/essay-feedback/review/:submissionId
+router.get('/review/:submissionId', async (req, res) => {
+  const { submissionId } = req.params;
+
+  try {
+    const { supabase } = require('../supabaseClient'); // adjust if needed
+
+    const { data, error } = await supabase
+      .from('essay_exam_submissions_answers')
+      .select('id, student_answer, ai_feedback, is_correct, score')
+      .eq('submission_id', submissionId);
+
+    if (error) {
+      console.error('❌ Review fetch error:', error.message);
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json(data);
+  } catch (err) {
+    console.error('❌ Server error fetching review:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
