@@ -53,10 +53,15 @@ const generateAIForEssaySubmission = async (submissionId) => {
 
       try {
         const feedback = await cohereService.generate(prompt);
+         const { is_correct, score } = evaluateAnswer(feedback);
 
-        await supabase
+         await supabase
           .from('essay_exam_submissions_answers')
-          .update({ ai_feedback: { comment: feedback } })
+          .update({
+            ai_feedback: { comment: feedback },
+            is_correct,
+            score
+          })
           .eq('id', id);
 
         console.log(`✅ Feedback saved for answer ${id}:`, feedback);
