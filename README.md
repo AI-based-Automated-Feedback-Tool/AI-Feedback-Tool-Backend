@@ -95,3 +95,30 @@ By default, the backend uses the **Cohere API** to generate text-based feedback.
 - Make sure to **never expose your `.env` content** in the frontend.
 
 ---
+
+## 🤝 Contributing
+
+We welcome your contributions! Follow these steps:
+
+1. Fork this repo
+2. Create your branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'Add new feature'`
+4. Push to branch: `git push origin feature/your-feature`
+5. Submit a pull request
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙌 Acknowledgements
+
+- [Supabase](https://supabase.com/)
+- [Cohere](https://cohere.com/)
+- [OpenAI](https://openai.com/)
+- [Express.js](https://expressjs.com/)
+
+---
