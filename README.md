@@ -38,14 +38,33 @@ To get the backend running locally, follow these steps:
 - [Supabase](https://supabase.com/) project (used as backend database)
 - `.env` file with necessary environment variables
 
-### Installation
+### 2. Install dependencies
 
 ```bash
-# Clone the repository
-git clone https://github.com/AI-based-Automated-Feedback-Tool/AI-Feedback-Tool-Backend.git
-
-# Navigate to project directory
-cd AI-Feedback-Tool-Backend
-
-# Install dependencies
 npm install
+```
+
+### 3. Create `.env` file
+
+Create a `.env` file in the root directory based on `.env.example`:
+
+```
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_key
+COHERE_API_KEY=your_cohere_key
+OPENAI_API_KEY=your_openai_key (optional)
+```
+
+> ✅ **Note**: Never commit your `.env` file. It's already listed in `.gitignore`.
+
+---
+
+## ▶️ Run the Backend Server
+
+```bash
+npm run dev
+```
+
+This starts the server on `http://localhost:3000`.
+
+---
