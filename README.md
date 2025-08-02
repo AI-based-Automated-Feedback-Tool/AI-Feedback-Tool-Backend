@@ -38,14 +38,60 @@ To get the backend running locally, follow these steps:
 - [Supabase](https://supabase.com/) project (used as backend database)
 - `.env` file with necessary environment variables
 
-### Installation
+### 2. Install dependencies
 
 ```bash
-# Clone the repository
-git clone https://github.com/AI-based-Automated-Feedback-Tool/AI-Feedback-Tool-Backend.git
-
-# Navigate to project directory
-cd AI-Feedback-Tool-Backend
-
-# Install dependencies
 npm install
+```
+
+### 3. Create `.env` file
+
+Create a `.env` file in the root directory based on `.env.example`:
+
+```
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_key
+COHERE_API_KEY=your_cohere_key
+OPENAI_API_KEY=your_openai_key (optional)
+```
+
+> ✅ **Note**: Never commit your `.env` file. It's already listed in `.gitignore`.
+
+---
+
+## ▶️ Run the Backend Server
+
+```bash
+npm run dev
+```
+
+This starts the server on `http://localhost:3000`.
+
+---
+
+## 🧪 API Endpoints Overview
+
+| Method | Endpoint                  | Description                            |
+|--------|---------------------------|----------------------------------------|
+| GET    | `/api/courses`            | Fetch all available courses            |
+| GET    | `/api/exams/:courseId`    | Fetch exams for a specific course      |
+| POST   | `/api/feedback/mcq`       | Generate feedback for MCQ answers      |
+| POST   | `/api/feedback/code`      | Generate feedback for code questions   |
+| POST   | `/api/feedback/essay`     | Generate feedback for essay answers    |
+
+> All endpoints use JSON for request and response.
+
+---
+
+## 🛠 AI Model Integration
+
+By default, the backend uses the **Cohere API** to generate text-based feedback. Optionally, you can switch to **OpenAI** by modifying the logic in `services/`.
+
+---
+
+## 🔒 Security Notes
+
+- The service role key from Supabase is stored in `.env` and used server-side only.
+- Make sure to **never expose your `.env` content** in the frontend.
+
+---
