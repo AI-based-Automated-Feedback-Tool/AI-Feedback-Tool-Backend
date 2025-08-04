@@ -28,7 +28,7 @@ const generateAIForEssaySubmission = async (submissionId) => {
     console.log('📄 Supabase answers:', answers);
 
     if (error || !answers || answers.length === 0) {
-      console.error('❌ Supabase error or no answers found:', error);
+      console.error(' Supabase error or no answers found:', error);
       return { success: false, message: 'No valid answers found or Supabase error' };
     }
 
@@ -40,12 +40,12 @@ const generateAIForEssaySubmission = async (submissionId) => {
       try {
         parsed = typeof student_answer === 'object' ? student_answer : JSON.parse(student_answer);
       } catch (err) {
-        console.warn(`⚠️ Skipping answer ${id}: Invalid JSON`);
+        console.warn(` Skipping answer ${id}: Invalid JSON`);
         continue;
       }
 
       if (!parsed?.text || !question?.question_text) {
-        console.warn(`⚠️ Skipping answer ${id}: Missing student text or question`);
+        console.warn(` Skipping answer ${id}: Missing student text or question`);
         continue;
       }
 
@@ -64,15 +64,15 @@ const generateAIForEssaySubmission = async (submissionId) => {
           })
           .eq('id', id);
 
-        console.log(`✅ Feedback saved for answer ${id}:`, feedback);
+        console.log(`Feedback saved for answer ${id}:`, feedback);
       } catch (genErr) {
-        console.error(`❌ AI generation failed for ${id}:`, genErr.message);
+        console.error(`AI generation failed for ${id}:`, genErr.message);
       }
     }
 
     return { success: true, message: 'AI feedback generated and saved.' };
   } catch (err) {
-    console.error('❌ Essay feedback generation error:', err.message);
+    console.error(' Essay feedback generation error:', err.message);
     return { success: false, message: 'Essay AI generation failed' };
   }
 };
