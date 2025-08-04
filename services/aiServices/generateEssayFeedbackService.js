@@ -49,7 +49,10 @@ const generateAIForEssaySubmission = async (submissionId) => {
         continue;
       }
 
-      const prompt = `Provide constructive feedback for this answer:\n"${parsed.text}"`;
+      const prompt = `Evaluate the following student answer in the context of the essay question. 
+      Essay Question: "${answer.question.text}"
+      Student Answer: "${parsed.text}"
+      Provide constructive feedback and highlight how well the answer addresses the question.`;
 
       try {
         const feedback = await cohereService.generate(prompt);
