@@ -9,7 +9,7 @@ async function getStudentExamDetails({exam_id, student_id, exam_type}) {
             total_score,
             time_taken,
             focus_loss_count,
-            feedback_summery,
+            feedback_summary,
             exam_id,
             users ( name ),
             exam_submissions_answers (
@@ -28,7 +28,7 @@ async function getStudentExamDetails({exam_id, student_id, exam_type}) {
             total_score,
             time_taken,
             focus_loss_count,
-            feedback_summery,
+            feedback_summary,
             exam_id,
             users ( name ),
             essay_exam_submissions_answers (
@@ -47,7 +47,7 @@ async function getStudentExamDetails({exam_id, student_id, exam_type}) {
             total_score,
             time_taken,
             focus_loss_count,
-            feedback_summery,
+            feedback_summary,
             exam_id,
             users ( name ),
             code_submissions_answers (
@@ -68,6 +68,7 @@ async function getStudentExamDetails({exam_id, student_id, exam_type}) {
         .eq('student_id', student_id);
 
         if (error) {
+            console.error("Supabase error:", error);
             const err = new Error ("Failed to get the exam details for the student");
             err.status = 500;
             throw err;
