@@ -15,13 +15,13 @@ module.exports.generateWithOpenRouter = async (prompt) => {
       'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
     },
     body: JSON.stringify({
-      model: 'sarvamai/sarvam-m:free',
+      model: 'gpt-4',
       messages: [
         { role: "system", content: "You are an expert educational AI assistant." },
         { role: "user", content: prompt }
       ],
       temperature: 0.7,
-      max_tokens: 2000,
+      max_tokens: 500,
     }),
   });
 
