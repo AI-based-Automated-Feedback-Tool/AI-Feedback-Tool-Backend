@@ -22,7 +22,7 @@ module.exports.generateWithOpenRouter = async (prompt) => {
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4', // Specify the model to use
+          model: 'openai/gpt-4o', // Specify the model to use
           messages: [
             { role: "system", content: "You are an expert educational AI assistant." },
             { role: "user", content: prompt }
