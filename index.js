@@ -31,7 +31,7 @@ const getExamDetailsRoute = require("./routes/examDetails/fetchExamDetailsRoute"
 const editExamDetailsRoute = require("./routes/examDetails/editExamDetailsRoute");
 const studentEssayQuestionsRoute = require('./routes/essayQuestions');
 const essayFeedbackRoutes = require('./routes/essayFeedbackRoutes');
-
+const mcqHintRoutes = require("./routes/mcqHintRoutes");
 
 
 const app = express();
@@ -129,7 +129,7 @@ app.use("/api/student-essay-questions", studentEssayQuestionsRoute);
 app.use('/api/essay-feedback', essayFeedbackRoutes);
 
 // Route for MCQ hint generation
-app.use("/api/hints", require("./routes/mcqHintRoutes"));
+app.use("/api/hints", mcqHintRoutes);
 
 
 
