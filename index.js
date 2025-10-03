@@ -128,6 +128,10 @@ app.use("/api/student-essay-questions", studentEssayQuestionsRoute);
 // Route for essay feedback generation
 app.use('/api/essay-feedback', essayFeedbackRoutes);
 
+// Route for MCQ hint generation
+app.use("/api/hints", require("./routes/mcqHintRoutes"));
+
+
 
 
 
