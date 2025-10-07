@@ -32,6 +32,7 @@ const editExamDetailsRoute = require("./routes/examDetails/editExamDetailsRoute"
 const studentEssayQuestionsRoute = require('./routes/essayQuestions');
 const essayFeedbackRoutes = require('./routes/essayFeedbackRoutes');
 const mcqHintRoutes = require("./routes/mcqHintRoutes");
+const mockExamRoutes = require("./routes/mockExam/mockExamRoutes");
 
 
 const app = express();
@@ -134,6 +135,8 @@ app.use("/api/hints", mcqHintRoutes);
 
 
 
+// Route for mock exam generation
+app.use("/api/mock-exam", mockExamRoutes);
 
 // Start server
 app.listen(PORT, () => {
