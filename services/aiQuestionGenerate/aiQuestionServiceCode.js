@@ -4,6 +4,16 @@ const cohere = new CohereClientV2({
     token: process.env.CO_API_KEY
 });
 
+// Normalize test_cases to proper types
+function normalizeTestCases(testCases) {
+  return testCases.map(tc => {
+    let parsedInput, parsedOutput;
+    try { parsedInput = JSON.parse(tc.input); } catch (e) { parsedInput = tc.input; }
+    try { parsedOutput = JSON.parse(tc.output); } catch (e) { parsedOutput = tc.output; }
+    return { input: parsedInput, output: parsedOutput };
+  });
+}
+
 async function generateCodeQuestions(
     topicDescription, 
     aiformSelectedLanguageName, 
@@ -68,6 +78,14 @@ async function generateCodeQuestions(
         message: 'AI output could not be parsed. Please try again.'
       };
     }
+
+    // Normalize test_cases and add language_id
+    questions = questions.map(q => ({
+        ...q,
+        test_cases: normalizeTestCases(q.test_cases),
+        language_id: aiformSelectedLanguageID
+    }));
+    
     return questions;
 }
 module.exports = {
