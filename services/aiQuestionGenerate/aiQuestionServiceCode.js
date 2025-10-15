@@ -14,7 +14,8 @@ async function generateCodeQuestions(
     doNotInclude, 
     questionNo, 
     expectedFunctionSignature, 
-    gradingDescription
+    gradingDescription,
+    defaultPoints = 10
 ) {
     // Build dynamic prompt
     let prompt = `You are an expert coding question designer.
@@ -37,7 +38,9 @@ async function generateCodeQuestions(
         - language_id (use ${aiformSelectedLanguageID})
         - points
 
-        Return the output as a valid JSON array.`;
+        Return the output as a valid JSON array.
+        
+        Important: Return the output as **strict JSON only**. Do not include any explanations, greetings, or extra text. Only output a JSON array.`;
 
     const response = await cohere.chat({
         model: 'command-xlarge-nightly',
@@ -51,7 +54,9 @@ async function generateCodeQuestions(
         temperature: 0.7,
     })
 
-    const rawText = response.message.content[0].text;
+    let rawText = response.message.content[0].text;
+    // Remove ```json and ``` if present
+    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
 
     let questions = [];
     try {
