@@ -5,11 +5,19 @@ const cohere = new CohereClientV2({
 });
 
 // Normalize test_cases to proper types
-function normalizeTestCases(testCases) {
-  return testCases.map(tc => {
+function normalizeTestCases(testCases = []) {
+  return testCases.map((tc) => {
     let parsedInput, parsedOutput;
-    try { parsedInput = JSON.parse(tc.input); } catch (e) { parsedInput = tc.input; }
-    try { parsedOutput = JSON.parse(tc.output); } catch (e) { parsedOutput = tc.output; }
+    try {
+      parsedInput = JSON.parse(tc.input);
+    } catch {
+      parsedInput = tc.input;
+    }
+    try {
+      parsedOutput = JSON.parse(tc.output);
+    } catch {
+      parsedOutput = tc.output;
+    }
     return { input: parsedInput, output: parsedOutput };
   });
 }
@@ -64,9 +72,22 @@ async function generateCodeQuestions(
         temperature: 0.7,
     })
 
-    let rawText = response.message.content[0].text;
+    let rawText = ''
+    if (response.message && Array.isArray(response.message.content)) {
+        rawText = response.message.content
+          .map(block => block.text || '')
+          .join('')
+          .trim();
+    } else {
+        rawText = JSON.stringify(response.message || response);
+    }
+
     // Remove ```json and ``` if present
-    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+    rawText = rawText
+      .replace(/^```(json)?/gi, '')
+      .replace(/```$/g, '')
+      .replace(/^'+|'+$/g, '')
+      .trim();
 
     let questions = [];
     try {
@@ -75,7 +96,8 @@ async function generateCodeQuestions(
       console.warn('Failed to parse AI response', err);
       return {
         error: true,
-        message: 'AI output could not be parsed. Please try again.'
+        message: 'AI output could not be parsed. Please try again.',
+        rawOutput: rawText
       };
     }
 
