@@ -93,12 +93,8 @@ async function generateCodeQuestions(
     try {
       questions = JSON.parse(rawText);
     } catch (err) {
-      console.warn('Failed to parse AI response', err);
-      return {
-        error: true,
-        message: 'AI output could not be parsed. Please try again.',
-        rawOutput: rawText
-      };
+      console.error('❌ Failed to parse AI response. Raw output:', rawText);
+      throw new Error('AI output could not be parsed. Please try again.');
     }
 
     // Normalize test_cases and add language_id
