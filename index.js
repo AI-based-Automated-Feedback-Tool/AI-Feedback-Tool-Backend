@@ -36,7 +36,7 @@ const mockExamRoutes = require("./routes/mockExam/mockExamRoutes");
 const aiQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutes');
 const aiCodeQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutesCode');
 const codeHintRoutes = require("./routes/codeHintRoutes")
-
+const aiEssayQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutesEssay');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -148,6 +148,9 @@ app.use('/api/generate-questions', aiQuestionRoutes)
 
 // Routes for AI code-question generation
 app.use('/api/generate-code-questions', aiCodeQuestionRoutes)
+
+// Routes for AI essay-question generation
+app.use('/api/generate-essay-questions', aiEssayQuestionRoutes);
 
 // Start server
 app.listen(PORT, () => {
