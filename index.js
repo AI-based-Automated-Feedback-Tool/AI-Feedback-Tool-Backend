@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const path = require("path");
 const questionRoutes = require("./routes/createQuestions");
 const configureExamRoutes = require("./routes/configureExamRoutes");
 const examRoutes = require("./routes/examRoutes");
@@ -38,12 +39,18 @@ const aiCodeQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRout
 const codeHintRoutes = require("./routes/codeHintRoutes")
 const aiEssayQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutesEssay');
 
+const uploadsRoutes = require("./routes/uploadsRoutes.js");
+const chartTaskRoutes = require("./routes/chartTaskRoutes.js");
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root route
 app.get("/", (req, res) => {
@@ -151,6 +158,9 @@ app.use('/api/generate-code-questions', aiCodeQuestionRoutes)
 
 // Routes for AI essay-question generation
 app.use('/api/generate-essay-questions', aiEssayQuestionRoutes);
+
+app.use("/api/uploads", uploadsRoutes);        // POST /api/uploads/image
+app.use("/api/chart-tasks", chartTaskRoutes);  // POST /api/chart-tasks/:questionId/submit
 
 // Start server
 app.listen(PORT, () => {
