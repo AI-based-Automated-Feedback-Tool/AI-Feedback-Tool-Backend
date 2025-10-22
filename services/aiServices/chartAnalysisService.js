@@ -1,9 +1,5 @@
-// services/aiServices/chartAnalysisService.js
-const cohere = require("./cohereService");
+const { generate } = require("./cohereService");
 
-/**
- * Analyze an uploaded diagram image against the question prompt.
- */
 async function analyzeChartImage({ questionText, imageUrl, imageMime }) {
   const prompt = `
 You are a helpful grader. An image diagram was uploaded as the student's answer.
@@ -15,13 +11,14 @@ Student Diagram URL: ${imageUrl}
 Image MIME: ${imageMime}
 
 Instructions:
-- Describe what the diagram shows (entities/classes/relations/flow).
-- Compare to the question; note missing or mismatched parts.
-- Give 2–4 concrete improvements.
-- Keep under 180 words.
+- Identify what the diagram represents (UML, ERD, Flow, etc.)
+- Compare it to question requirements
+- List missing or incorrect elements
+- Provide 2–4 improvement suggestions
+- Keep under 180 words and DO NOT mention being an AI model
 `;
 
-  return cohere.generate(prompt);
+  return generate(prompt); 
 }
 
 module.exports = { analyzeChartImage };
