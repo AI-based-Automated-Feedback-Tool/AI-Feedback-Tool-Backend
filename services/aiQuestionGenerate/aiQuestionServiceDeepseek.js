@@ -1,29 +1,31 @@
-const {CohereClientV2} = require('cohere-ai');
+const { OpenAI } = require('openai');
 
-const cohere = new CohereClientV2({
-    token: process.env.CO_API_KEY
+const openai = new OpenAI({
+        baseURL: 'https://openrouter.ai/api/v1',
+        apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-async function generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType) {
+async function generateQuestionsDeepseek(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType) {
     try {
-        const response = await cohere.chat({
-            model: 'command-xlarge-nightly',
+        const response = await openai.chat.completions.create({
             messages: [
-                {
-                    role: 'user',
+                { 
+                    role: "user", 
                     content: `Generate ${numQuestions} ${difficulty} level${questionType} questions on the topic of ${topic}. Give me questions with 4 answer choices. And also include the correct answer.The questions should focus on the following key concepts: ${keyConcepts}. The questions should not include the following: ${doNotInclude}. Use the following guidance to help you generate the questions: ${guidence}. Format the output strictly as a JSON array like this:[{"question":"Question text here","choices": ["choice1", "choice2", "choice3", "choice4"],"correct_answer": "correct choice"}] Do NOT include any extra text, markdown, or backticks. Only return valid JSON.`
                 }
             ],
-            max_tokens: 1000,
-            temperature: 0.7,
-        })
-        const rawContent = response.message.content[0].text;
+            model: "deepseek/deepseek-r1:free",
+        });
+
+        const rawContent = response.choices[0].message.content;
         return JSON.parse(rawContent);
     } catch (error) {
-        console.error("Cohere error:", error);
-        return [{ error: true, message: error.message || 'Cohere failed' }];
+        console.error("DeepSeek error:", error);
+        return [{ error: true, message: error.message || 'DeepSeek failed' }];
     }
+
 }
+
 module.exports = {
-    generateQuestions
+    generateQuestionsDeepseek
 };
