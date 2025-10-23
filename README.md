@@ -2,6 +2,8 @@
 
 This is the backend for the **AI-Based Automated Feedback Tool**. It powers the storage, retrieval, and management of course, exam, and feedback data via a RESTful API using **Node.js**, **Express**, and **Supabase**.
 
+🌐 **Backend URL:** [https://ai-feedback-tool-backend-qgvj.onrender.com](https://ai-feedback-tool-backend-qgvj.onrender.com)
+
 --
 
 ## 🚀 Features
