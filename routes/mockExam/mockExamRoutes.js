@@ -5,8 +5,8 @@ const express = require("express");
 const router = express.Router();
 
 const { supabase } = require("../../supabaseClient"); // Supabase SERVICE ROLE client
-const OpenAI = require("openai");
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const { CohereClient } = require("cohere-ai");
+const cohere = new CohereClient({ token: process.env.COHERE_API_KEY });
 
 /* --------------------------------------------------------------------
    🔹 HELPER FUNCTIONS
@@ -88,13 +88,13 @@ Return ONLY valid JSON, no markdown:
 ]
 `;
 
-  const resp = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
+  const response = await cohere.chat({
+    model: "command-a-03-2025",
+    message: prompt,
     temperature: 0.7,
   });
 
-  let text = resp.choices?.[0]?.message?.content || "[]";
+  let text = response.text || "[]";
   try {
     return JSON.parse(text);
   } catch {
@@ -117,13 +117,13 @@ Return ONLY valid JSON (no markdown):
 ]
 `;
 
-  const resp = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
+  const response = await cohere.chat({
+    model: "command-a-03-2025",
+    message: prompt,
     temperature: 0.8,
   });
 
-  let text = resp.choices?.[0]?.message?.content || "[]";
+  let text = response.text || "[]";
   try {
     return JSON.parse(text);
   } catch {
@@ -148,13 +148,13 @@ Return valid JSON in this format:
 ]
 `;
 
-  const resp = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
+  const response = await cohere.chat({
+    model: "command-a-03-2025",
+    message: prompt,
     temperature: 0.7,
   });
 
-  let text = resp.choices?.[0]?.message?.content || "[]";
+  let text = response.text || "[]";
   try {
     return JSON.parse(text);
   } catch {
@@ -270,16 +270,13 @@ Return STRICT JSON ONLY:
 }
 `;
 
-    const resp = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await cohere.chat({
+      model: "command-a-03-2025",
+      message: systemPrompt + "\n\nInput: " + JSON.stringify({ items }),
       temperature: 0.3,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: JSON.stringify({ items }) },
-      ],
     });
 
-    let text = resp.choices?.[0]?.message?.content || '{"graded":[]}';
+    let text = response.text || '{"graded":[]}';
     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
 
     let parsed;
@@ -341,16 +338,13 @@ Return STRICT JSON ONLY:
 }
 `;
 
-    const resp = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await cohere.chat({
+      model: "command-a-03-2025",
+      message: systemPrompt + "\n\nInput: " + JSON.stringify({ items }),
       temperature: 0.3,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: JSON.stringify({ items }) },
-      ],
     });
 
-    let text = resp.choices?.[0]?.message?.content || '{"graded":[]}';
+    let text = response.text || '{"graded":[]}';
     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
 
     let parsed;
