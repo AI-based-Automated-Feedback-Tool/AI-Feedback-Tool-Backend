@@ -1,5 +1,5 @@
 const {generateCodeQuestions } = require('../../services/aiQuestionGenerate/aiQuestionServiceCode');
-const {generateCodeQuestionsDeepSeek } = require('../../services/aiQuestionGenerate/aiQuestionServiceCodeDeepseek');
+const {generateCodeQuestionsDeepSeek } = require('../../services/aiQuestionGenerate/aiQuestionServiceCodeDeepSeek');
 
 const generateAIQuestionsCode = async (req, res) => {
     try {
