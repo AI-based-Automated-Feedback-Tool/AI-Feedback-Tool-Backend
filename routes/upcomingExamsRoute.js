@@ -37,6 +37,7 @@ router.get('/', async (req, res) => {
         type,
         start_time,
         course_id,
+        preparation_status,
         courses (
           course_code,
           title
@@ -75,7 +76,7 @@ router.get('/', async (req, res) => {
         instructor: 'TBA', // Not in your database
         status: 'upcoming',
         enrolled: true,
-        preparationStatus: 'not-started', // Not in your database
+        preparationStatus:exam.preparation_status || 'not-started', // Not in your database
         syllabus: exam.instructions || 'No instructions available',
         importantNotes: 'Check exam instructions carefully'
       };

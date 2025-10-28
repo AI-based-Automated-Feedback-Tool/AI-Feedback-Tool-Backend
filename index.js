@@ -39,6 +39,7 @@ const aiCodeQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRout
 const codeHintRoutes = require("./routes/codeHintRoutes")
 const aiEssayQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutesEssay');
 const upcomingExamsRoute = require("./routes/upcomingExamsRoute");
+const updatePreparationStatusRoute = require("./routes/updatePreparationStatusRoute");
 
 const uploadsRoutes = require("./routes/uploadsRoutes.js");
 const chartTaskRoutes = require("./routes/chartTaskRoutes.js");
@@ -145,6 +146,9 @@ app.use("/api/hints", mcqHintRoutes);
 
 // Route for upcoming exams
 app.use("/api/upcoming-exams", upcomingExamsRoute);
+
+// Route to update preparation status
+app.use("/api/exams", updatePreparationStatusRoute);
 
 //Route for Code Hint generation
 app.use("/api/hints", codeHintRoutes);
