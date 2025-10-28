@@ -64,6 +64,7 @@ router.get('/', async (req, res) => {
         hour12: true 
       });
 
+
       return {
         id: exam.exam_id,
         courseCode: exam.courses?.course_code || 'N/A',
@@ -90,6 +91,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
