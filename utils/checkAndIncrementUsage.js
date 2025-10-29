@@ -59,3 +59,7 @@ async function checkAndIncrementUsage(userId, aiModel) {
     }
 
 }
+
+module.exports = {
+    checkAndIncrementUsage
+};

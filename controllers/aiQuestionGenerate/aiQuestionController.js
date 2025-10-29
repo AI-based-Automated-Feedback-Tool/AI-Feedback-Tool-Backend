@@ -1,10 +1,19 @@
 const {generateQuestions} = require('../../services/aiQuestionGenerate/aiQuestionService.js');
 const {generateQuestionsDeepseek} = require('../../services/aiQuestionGenerate/aiQuestionServiceDeepseek.js');
-const {checkAndIncrementUsage} = require('../../utils/middleware/checkAndIncrementUsage.js');
+const {checkAndIncrementUsage} = require('../../utils/checkAndIncrementUsage.js');
 
 const generateAIQuestions = async (req, res) => {
     try {
-        const {topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, aiModel} = req.body;
+        const {
+            topic, 
+            numQuestions, 
+            difficulty, 
+            guidence, 
+            keyConcepts, 
+            doNotInclude, 
+            questionType, 
+            aiModel
+        } = req.body;
 
         // get user id
         const userId = req.user.id;
