@@ -6,7 +6,7 @@ const DAILY_LIMITS = {
 };
 
 async function checkAndIncrementUsage(userId, aiModel) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toLocaleDateString('en-CA');
 
     //try to get existing usage record
     let { data: usageRecord, error: fetchError } = await supabase
