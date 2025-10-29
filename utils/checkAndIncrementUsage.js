@@ -1,4 +1,4 @@
-const { supabase } = require('../../supabaseClient');
+const { supabase } = require('../supabaseClient');
 
 const DAILY_LIMITS = {
     'cohere': 5,
