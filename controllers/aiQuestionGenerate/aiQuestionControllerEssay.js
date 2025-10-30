@@ -1,5 +1,6 @@
 const {generateEssayQuestions } = require('../../services/aiQuestionGenerate/aiQuestionServiceEssay');
 const { generateEssayQuestionsDeepseek } = require('../../services/aiQuestionGenerate/aiQuestionServiceEssayDeepSeek');
+import { checkAndIncrementUsage } from '../../utils/checkAndIncrementUsage.js';
 
 const generateAIQuestionsEssay = async (req, res) => {
     try {
@@ -15,6 +16,15 @@ const generateAIQuestionsEssay = async (req, res) => {
             gradingNotesAI,
             aiModel
         } = req.body;
+
+        //get user id
+        const userId = req.user.id;
+
+        // check and increment usage
+        const canProceed = await checkAndIncrementUsage(userId, aiModel);
+        if (!canProceed) {
+            return res.status(403).json({error: 'Daily usage limit reached for the selected AI model'});
+        }
 
         let questions;
         if (aiModel === "deepseek") {
