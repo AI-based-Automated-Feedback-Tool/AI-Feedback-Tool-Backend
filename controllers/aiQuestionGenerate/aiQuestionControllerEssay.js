@@ -1,6 +1,6 @@
 const {generateEssayQuestions } = require('../../services/aiQuestionGenerate/aiQuestionServiceEssay');
 const { generateEssayQuestionsDeepseek } = require('../../services/aiQuestionGenerate/aiQuestionServiceEssayDeepSeek');
-import { checkAndIncrementUsage } from '../../utils/checkAndIncrementUsage.js';
+const { checkAndIncrementUsage } = require ('../../utils/checkAndIncrementUsage');
 
 const generateAIQuestionsEssay = async (req, res) => {
     try {
