@@ -12,7 +12,8 @@ const generateAIQuestions = async (req, res) => {
             keyConcepts, 
             doNotInclude, 
             questionType, 
-            aiModel
+            aiModel,
+            gradingNotes
         } = req.body;
 
         // get user id
@@ -27,9 +28,9 @@ const generateAIQuestions = async (req, res) => {
         // start generating questions
         let questions;
         if (aiModel === 'deepseek') {
-            questions = await generateQuestionsDeepseek(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType);
+            questions = await generateQuestionsDeepseek(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, gradingNotes);
         } else {
-            questions = await generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType);
+            questions = await generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, gradingNotes);
         }
 
         // Check if service returned an error
