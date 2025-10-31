@@ -40,7 +40,7 @@ const codeHintRoutes = require("./routes/codeHintRoutes")
 const aiEssayQuestionRoutes = require('./routes/aiQuestionGenerate/aiQuestionRoutesEssay');
 const upcomingExamsRoute = require("./routes/upcomingExamsRoute");
 const updatePreparationStatusRoute = require("./routes/updatePreparationStatusRoute");
-
+const aiUsageRoutes = require('./routes/aiUsage/aiUsageRoutes');
 const uploadsRoutes = require("./routes/uploadsRoutes.js");
 const chartTaskRoutes = require("./routes/chartTaskRoutes.js");
 
@@ -169,6 +169,9 @@ app.use('/api/generate-essay-questions', aiEssayQuestionRoutes);
 
 app.use("/api/uploads", uploadsRoutes);        // POST /api/uploads/image
 app.use("/api/chart-tasks", chartTaskRoutes);  // POST /api/chart-tasks/:questionId/submit
+
+//Route for AI usage tracking
+app.use('/api/ai-usage', aiUsageRoutes);
 
 // Start server
 app.listen(PORT, () => {

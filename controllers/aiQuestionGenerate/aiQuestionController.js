@@ -1,15 +1,36 @@
 const {generateQuestions} = require('../../services/aiQuestionGenerate/aiQuestionService.js');
 const {generateQuestionsDeepseek} = require('../../services/aiQuestionGenerate/aiQuestionServiceDeepseek.js');
+const {checkAndIncrementUsage} = require('../../utils/checkAndIncrementUsage.js');
 
 const generateAIQuestions = async (req, res) => {
     try {
-        const {topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, aiModel} = req.body;
+        const {
+            topic, 
+            numQuestions, 
+            difficulty, 
+            guidence, 
+            keyConcepts, 
+            doNotInclude, 
+            questionType, 
+            aiModel,
+            gradingNotes
+        } = req.body;
 
+        // get user id
+        const userId = req.user.id;
+
+        // check and increment usage
+        const canProceed = await checkAndIncrementUsage(userId, aiModel);
+        if (!canProceed) {
+            return res.status(403).json({error: 'Daily usage limit reached for the selected AI model'});
+        }
+
+        // start generating questions
         let questions;
         if (aiModel === 'deepseek') {
-            questions = await generateQuestionsDeepseek(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType);
+            questions = await generateQuestionsDeepseek(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, gradingNotes);
         } else {
-            questions = await generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType);
+            questions = await generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, gradingNotes);
         }
 
         // Check if service returned an error
