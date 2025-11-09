@@ -1,4 +1,5 @@
 const {CohereClientV2} = require('cohere-ai');
+const { parseAIResponse } = require('../../utils/parseAIResponse');
 
 const cohere = new CohereClientV2({
     token: process.env.CO_API_KEY
@@ -82,16 +83,9 @@ async function generateCodeQuestions(
         rawText = JSON.stringify(response.message || response);
     }
 
-    // Remove ```json and ``` if present
-    rawText = rawText
-      .replace(/^```(json)?/gi, '')
-      .replace(/```$/g, '')
-      .replace(/^'+|'+$/g, '')
-      .trim();
-
     let questions = [];
     try {
-      questions = JSON.parse(rawText);
+      questions = parseAIResponse(rawText);
     } catch (err) {
       console.error('❌ Failed to parse AI response. Raw output:', rawText);
       throw new Error('AI output could not be parsed. Please try again.');

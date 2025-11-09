@@ -1,5 +1,5 @@
 const {OpenAI} = require('openai');
-const { jsonrepair } = require('jsonrepair');
+const { parseAIResponse } = require('../../utils/parseAIResponse');
 
 const openai = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -79,25 +79,13 @@ async function generateCodeQuestionsDeepSeek(
         })
 
         let rawText = response.choices?.[0]?.message?.content?.trim() || '';
-        // Remove ```json and ``` if present
-        rawText = rawText
-        .replace(/^```(json)?/gi, '')
-        .replace(/```$/g, '')
-        .replace(/^'+|'+$/g, '')
-        .trim();
 
         let questions = [];
         try {
-          questions = JSON.parse(rawText);
+          questions = parseAIResponse(rawText);
         } catch (err) {
-            console.warn('⚠️ Invalid JSON from AI, attempting repair...');
-            try {
-                const repaired = jsonrepair(rawText);
-                questions = JSON.parse(repaired);
-            } catch (repairErr) {
-                console.error('❌ JSON repair failed. Raw output:', rawText);
-                throw new Error('AI output could not be parsed, even after JSON repair.');
-            }
+            console.error('❌ Failed to parse AI response. Raw output:', rawText);
+            throw new Error('AI output could not be parsed. Please try again.');
         }
 
         // Normalize test_cases and add language_id
