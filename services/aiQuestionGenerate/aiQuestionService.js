@@ -11,10 +11,34 @@ async function generateQuestions(topic, numQuestions, difficulty, guidence, keyC
             messages: [
                 {
                     role: 'user',
-                    content: `Generate ${numQuestions} ${difficulty} level${questionType} questions on the topic of ${topic}. Give me questions with 4 answer choices. And also include the correct answer.Focus on these key concepts: ${keyConcepts}. The questions should not include the following: ${doNotInclude}. Follow this guidance: ${guidence}. If the grading notes do not clearly define point values,assign points automatically based on question difficulty:
-                    - Easy: 1 points
-                    - Medium: 2 points
-                    - Hard: 5 points. Format the output strictly as a JSON array like this:[{"question":"Question text here","choices": ["choice1", "choice2", "choice3", "choice4"],"correct_answer": "correct choice"},"points": number]. Generate questions according to ${gradingNotes}. Do NOT include any extra text, markdown, or backticks. Only return valid JSON.`
+                    content: `You are a question generator.
+
+                        Generate ${numQuestions} ${difficulty}-level ${questionType} questions on the topic of "${topic}". 
+                        Each question should have 4 answer choices and a correct answer.
+
+                        Focus on these key concepts: ${keyConcepts}.
+                        Do not include any of the following: ${doNotInclude}.
+                        Follow this guidance: ${guidence}.
+
+                        If the grading notes below explicitly define point values for questions, use those values.
+                        If they do NOT define point values, assign points automatically based on question difficulty:
+                        - Easy: 1 point
+                        - Medium: 2 points
+                        - Hard: 5 points
+
+                        Grading notes: ${gradingNotes}
+
+                        Format the output **strictly** as a JSON array like this:
+                        [
+                        {
+                            "question": "Question text here",
+                            "choices": ["choice1", "choice2", "choice3", "choice4"],
+                            "correct_answer": "correct choice",
+                            "points": number
+                        }
+                        ]
+
+                        Do NOT include any explanations, markdown, or extra text. Output only valid JSON.`
                 }
             ],
             max_tokens: 1000,
