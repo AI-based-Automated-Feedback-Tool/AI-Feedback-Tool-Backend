@@ -64,7 +64,11 @@ async function generateCodeQuestionsDeepSeek(
             Important: Return the output as **strict JSON only**. Do not include markdown (like \`\`\`json), explanations, greetings, code blocks, or extra text. Only output a JSON array.
             Return the output as a **valid JSON array**.
             Do not add any line breaks, markdown, code blocks, or extra text.
-            Ensure all strings are properly closed and escaped`;
+            Ensure all strings are properly closed and escaped
+            Quality rules:
+            - wrapper_code must contain only the function signature + a placeholder (no solution).
+            - function_signature and wrapper_code must match exactly.
+            - test_cases must be correct and include normal and edge cases.`;
 
         const response = await openai.chat.completions.create({
             model: 'deepseek/deepseek-r1:free',
