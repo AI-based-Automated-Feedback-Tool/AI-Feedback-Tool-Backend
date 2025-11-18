@@ -2,7 +2,7 @@ const {CohereClientV2} = require('cohere-ai');
 const { parseAIResponse } = require('../../utils/parseAIResponse');
 
 const cohere = new CohereClientV2({
-    token: process.env.CO_API_KEY
+    token: process.env.COHERE_API_KEY
 });
 
 // Normalize test_cases to proper types
@@ -59,7 +59,11 @@ async function generateCodeQuestions(
 
         Return the output as a valid JSON array.
         
-        Important: Return the output as **strict JSON only**. Do not include any explanations, greetings, or extra text. Only output a JSON array.`;
+        Important: Return the output as **strict JSON only**. Do not include any explanations, greetings, or extra text. Only output a JSON array.
+        Quality rules:
+        - wrapper_code must contain only the function signature + a placeholder (no solution).
+        - function_signature and wrapper_code must match exactly.
+        - test_cases must be correct and include normal and edge cases.`;
 
     const response = await cohere.chat({
         model: 'command-xlarge-nightly',
