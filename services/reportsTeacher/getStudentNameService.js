@@ -12,8 +12,9 @@ async function getStudentName({ course_id }) {
         err.status = 500;
         throw err;
     }
-
+    console.log("Student courses for course:", course_id, studentCourses);
     const studentIds = studentCourses.map(student => student.student_id);
+    console.log("Student IDs for course:", course_id, studentIds);
     if (studentIds.length === 0) {
         return []; // no students enrolled, return empty array 
     }
@@ -29,6 +30,7 @@ async function getStudentName({ course_id }) {
         err.status = 500;
         throw err;
     }
+    console.log("Returning students for course:", course_id, students);
     return students;
 }
 
