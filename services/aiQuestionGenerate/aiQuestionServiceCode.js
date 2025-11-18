@@ -2,7 +2,7 @@ const {CohereClientV2} = require('cohere-ai');
 const { parseAIResponse } = require('../../utils/parseAIResponse');
 
 const cohere = new CohereClientV2({
-    token: process.env.CO_API_KEY
+    token: process.env.COHERE_API_KEY
 });
 
 // Normalize test_cases to proper types

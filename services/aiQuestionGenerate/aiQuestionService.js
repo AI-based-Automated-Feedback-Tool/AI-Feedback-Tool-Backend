@@ -1,7 +1,7 @@
 const {CohereClientV2} = require('cohere-ai');
 
 const cohere = new CohereClientV2({
-    token: process.env.CO_API_KEY
+    token: process.env.COHERE_API_KEY
 });
 
 async function generateQuestions(topic, numQuestions, difficulty, guidence, keyConcepts, doNotInclude, questionType, gradingNotes) {
