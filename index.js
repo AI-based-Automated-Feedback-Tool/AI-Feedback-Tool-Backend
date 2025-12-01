@@ -43,6 +43,7 @@ const updatePreparationStatusRoute = require("./routes/updatePreparationStatusRo
 const aiUsageRoutes = require('./routes/aiUsage/aiUsageRoutes');
 const uploadsRoutes = require("./routes/uploadsRoutes.js");
 const chartTaskRoutes = require("./routes/chartTaskRoutes.js");
+const deleteExamRoute = require('./routes/deleteExam/deleteExamRoute');
 
 
 const app = express();
@@ -172,6 +173,9 @@ app.use("/api/chart-tasks", chartTaskRoutes);  // POST /api/chart-tasks/:questio
 
 //Route for AI usage tracking
 app.use('/api/ai-usage', aiUsageRoutes);
+
+// Route for deleting an exam
+app.use('/api/delete-exam', deleteExamRoute);
 
 // Start server
 app.listen(PORT, () => {
