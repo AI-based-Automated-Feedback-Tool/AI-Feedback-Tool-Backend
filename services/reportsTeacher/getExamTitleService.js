@@ -3,7 +3,7 @@ const {supabase} = require('../../supabaseClient')
 async function getExamTitle({course_id}) {
     const { data,error } = await supabase
         .from('exams')
-        .select('exam_id, title, type')
+        .select('exam_id, title, type, end_time')
         .eq('course_id', course_id)
 
     if (error) {
