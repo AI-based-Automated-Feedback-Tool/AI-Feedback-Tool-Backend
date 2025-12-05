@@ -13,7 +13,8 @@ const createExamConfiguration = async (examData) => {
       ai_assessment_guide: examData.ai_assessment_guide,
       user_id: examData.user_id,
       start_time: examData.start_time,
-      end_time: examData.end_time
+      end_time: examData.end_time,
+      exam_or_assignment: examData.exam_or_assignment || 'exam'
     })
     .select();
 
